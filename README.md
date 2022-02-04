@@ -43,5 +43,5 @@ sticky notes or loose papers.
 
 - As a user, I want to be able to create a new list/ team of characters
 - As a user, I want to be able to add characters to my created lists
-- As a user, I want to be able to remove characters from my lists
+- As a user, I want to be able to remove characters from my created lists
 - As a user, I want to be able to view all my lists/ teams created
