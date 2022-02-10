@@ -8,11 +8,13 @@ import org.junit.jupiter.api.Test;
 public class CharacterListTest {
     private CharacterList testList;
     private Character Eula;
+    private Character Albedo;
 
     @BeforeEach
     void runBefore() {
         testList = new CharacterList("Owned Characters");
         Eula = new Character("Eula", "Cryo", "Claymore", 80);
+        Albedo = new Character("Albedo", "Cryo", "Claymore", 80);
     }
 
     @Test
@@ -24,16 +26,38 @@ public class CharacterListTest {
 
     @Test
     void testAddCharacter() {
-        testList.addCharacter(Eula);
+        testList.addCharacterToList(Eula);
         assertEquals(1, testList.getCharacters().size());
         assertEquals(Eula, testList.getCharacters().get(0));
     }
 
     @Test
     void testRemoveCharacter() {
-        testList.addCharacter(Eula);
-        testList.removeCharacter(Eula);
+        testList.addCharacterToList(Eula);
+        testList.removeCharacterFromList(Eula);
         assertEquals(0, testList.getCharacters().size());
+    }
+
+    @Test
+    void testInList() {
+        testList.addCharacterToList(Albedo);
+        testList.addCharacterToList(Eula);
+        assertTrue(testList.inList("Eula"));
+        assertTrue(testList.inList("Albedo"));
+        assertFalse(testList.inList("Bennett"));
+    }
+
+    @Test
+    void testNameToCharacter() {
+        testList.addCharacterToList(Eula);
+        assertEquals(Eula, testList.nameToCharacter("Eula"));
+    }
+
+    @Test
+    void testEmpty() {
+        assertTrue(testList.empty());
+        testList.addCharacterToList(Eula);
+        assertFalse(testList.empty());
     }
 
 }
