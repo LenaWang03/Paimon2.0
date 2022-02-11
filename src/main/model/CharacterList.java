@@ -50,7 +50,11 @@ public class CharacterList {
                 index = i;
             }
         }
-        return characters.get(index);
+        if (index == -1) {
+            return null;
+        } else {
+            return characters.get(index);
+        }
     }
 
     // EFFECTS: returns true if character list is empty, false otherwise
@@ -75,6 +79,5 @@ public class CharacterList {
     public int getSize() {
         return this.characters.size();
     }
-
 
 }

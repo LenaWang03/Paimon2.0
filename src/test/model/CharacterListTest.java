@@ -51,6 +51,7 @@ public class CharacterListTest {
     void testNameToCharacter() {
         testList.addCharacterToList(Eula);
         assertEquals(Eula, testList.nameToCharacter("Eula"));
+        assertEquals(null, testList.nameToCharacter("Albedo"));
     }
 
     @Test
@@ -58,6 +59,19 @@ public class CharacterListTest {
         assertTrue(testList.empty());
         testList.addCharacterToList(Eula);
         assertFalse(testList.empty());
+    }
+
+    @Test
+    void getSize() {
+        assertEquals(0, testList.getSize());
+    }
+
+    @Test
+    void getCharacter() {
+        testList.addCharacterToList(Eula);
+        testList.addCharacterToList(Albedo);
+        assertEquals(Eula, testList.getCharacter(0));
+        assertEquals(Albedo, testList.getCharacter(1));
     }
 
 }
