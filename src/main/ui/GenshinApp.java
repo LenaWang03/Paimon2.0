@@ -1,34 +1,46 @@
 package ui;
 
+import model.*;
+
 import model.Character;
-import model.CharacterList;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
-
-
-// * code from phase 1 based on the teller application provided in course materials
 
 
 // Genshin Application
 public class GenshinApp {
+    private static final String JSON_STORE = "./data/lists.json";
     private CharacterList owned;
     private Scanner input;
-    List<CharacterList> lists = new ArrayList<>();
     private boolean keepGoing = true;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    Profile profile = new Profile();
 
-    // EFFECTS: runs the genshin application
+
+    // EFFECTS: triggers the run genshin application method
     public GenshinApp() {
         runGenshin();
+
     }
 
+    // EFFECTS: runs the genshin application
     private void runGenshin() {
-
-        String request = "";
-
+        String request;
         init();
+        System.out.println("Welcome back! Would you like Paimon to restore list information "
+                + "from your previous session? (y/n)");
+        String restore = input.next();
+        if (restore.equals("y")) {
+            loadProfile();
+        } else if (restore.equals("n")) {
+            System.out.println("Great! Paimon will start a new profile for you!");
+        }
 
         while (keepGoing) {
             displayMenu();
@@ -41,30 +53,39 @@ public class GenshinApp {
     //MODIFIES: keepGoing
     // EFFECTS: stops application
     private void quit() {
+        System.out.println("Phew! Thats enough list making for today! Would you like Paimon to save your work? (y/n)\n");
+        String reply = input.next();
+        if (reply.equals("y")) {
+            saveProile();
+        }
         System.out.println("It was fun chatting with you. See you again!");
         keepGoing = false;
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes starting list and input
+    // EFFECTS: initializes starting list, input, and saving abilities
     private void init() {
         owned = new CharacterList("Owned Characters");
-        lists.add(owned);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        profile.addList(owned);
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         System.out.println("Hi there! My name is Paimon! Welcome to your Genshin Tracker");
+
     }
 
     // EFFECTS: displays menu of options to user
     private void displayMenu() {
         System.out.println("\n");
         System.out.println("What would you like me to help you with?");
-        System.out.println("\nSelect from 1-5");
+        System.out.println("\nSelect from 1-6");
         System.out.println("\t1. add character");
         System.out.println("\t2. remove character");
         System.out.println("\t3. create new list");
         System.out.println("\t4. view lists");
-        System.out.println("\t5. quit");
+        System.out.println("\t5  save lists to file");
+        System.out.println("\t6. quit");
     }
 
     // MODIFIES: this
@@ -72,16 +93,23 @@ public class GenshinApp {
     private void processRequest(String request) {
         if (request.equals("1")) {
             addCharacter();
+            isContinue();
         } else if (request.equals("2")) {
             removeCharacter();
+            isContinue();
         } else if (request.equals("3")) {
             createList();
+            isContinue();
         } else if (request.equals("4")) {
             viewList();
+            isContinue();
         } else if (request.equals("5")) {
+            saveProile();
+            isContinue();
+        } else if (request.equals("6")) {
             quit();
         } else {
-            System.out.println("Huh? Paimon doesn’t understand. Are you sure you entered a number form 1-5?");
+            System.out.println("Huh? Paimon doesn’t understand. Are you sure you entered a number form 1-6?");
         }
     }
 
@@ -91,7 +119,7 @@ public class GenshinApp {
         String answer = input.next();
         if (answer.equals("n")) {
             quit();
-        } else if (! answer.equals("y")) {
+        } else if (!answer.equals("y")) {
             System.out.println("Hmm that doesn’t make sense to Paimon, are you sure you entered correctly?");
         }
     }
@@ -100,9 +128,9 @@ public class GenshinApp {
     private void createList() {
         System.out.println("What would you like your list name to be?");
         String listName = input.next();
-        lists.add(new CharacterList(listName));
+        profile.addList(new CharacterList(listName));
         System.out.println("List " + listName + " created! \n");
-        isContinue();
+
     }
 
     // MODIFIES: selected
@@ -116,24 +144,57 @@ public class GenshinApp {
         selected.addCharacterToList(createdCharacter);
         System.out.println("Got it!");
         System.out.println(createdCharacter.getName() + " the " + createdCharacter.getWeapon()
-                + " wielding level " + createdCharacter.getLevel() + " " + createdCharacter.getElement()
+                + " wielding level " + createdCharacter.getLevel() + " " + createdCharacter.getVision()
                 + " character has been added to your " + selected.getName() + " list!");
-        isContinue();
     }
 
     // MODIFIES: selected
     // EFFECTS: creates a character and assigns their traits
     private Character createCharacter() {
-        int level = 0;
         System.out.println("What’s your character's name?");
         String name = input.next();
-        System.out.println("What element does " + name + " use");
-        String element = input.next();
-        System.out.println(element + "! That's so cool! Paimon wishes she had a cool element \n"
-                + "... Anyways, what weapon does " + name + " use?");
-        String weapon = input.next();
-        System.out.println("Eek! They're a " + weapon + " user? Paimon doesn't like weapons \n"
-                + "Last but not least, what is " + name + "'s level?");
+        Vision vision = readVision(name);
+        Weapon weapon = readWeapon(name);
+        int level = readLevel(name);
+        return new Character(name, vision, weapon, level);
+    }
+
+    // EFFECTS: prompts user to select a vision and returns it
+    private Vision readVision(String name) {
+        System.out.println("What vision does " + name + " have");
+
+        int menuLabel = 1;
+        for (Vision v : Vision.values()) {
+            System.out.println(menuLabel + ": " + v);
+            menuLabel++;
+        }
+        int menuSelection = input.nextInt();
+        System.out.println(Vision.values()[menuSelection - 1] + "! "
+                + "That's so cool! Paimon wishes she had a cool element \n");
+
+        return Vision.values()[menuSelection - 1];
+    }
+
+    // EFFECTS: prompts user to select a weapon and returns it
+    private Weapon readWeapon(String name) {
+        System.out.println("... Anyways, what weapon does " + name + " use?");
+
+        int menuLabel = 1;
+        for (Weapon w : Weapon.values()) {
+            System.out.println(menuLabel + ": " + w);
+            menuLabel++;
+        }
+
+        int menuSelection = input.nextInt();
+        System.out.println("Eek! They're a " + Weapon.values()[menuSelection - 1] + " user? "
+                + "Paimon doesn't like weapons \n");
+        return Weapon.values()[menuSelection - 1];
+    }
+
+    // EFFECTS: prompts user to select a vision and returns it
+    private int readLevel(String name) {
+        int level = 0;
+        System.out.println("Last but not least, what is " + name + "'s level?");
         while ((level > 90) || level <= 0) {
             try {
                 level = Integer.parseInt(input.next());
@@ -146,7 +207,7 @@ public class GenshinApp {
                 System.out.println("Hmm that doesn’t make sense to Paimon, are you sure you entered correctly?");
             }
         }
-        return new Character(name, element, weapon, level);
+        return level;
     }
 
     // MODIFIES: selected
@@ -168,7 +229,6 @@ public class GenshinApp {
                 System.out.println("Hmmm, from Paimon's records " + name + " doesn’t seem to be on this list");
             }
         }
-        isContinue();
     }
 
     // EFFECTS: allows user to view characters in selected list
@@ -180,26 +240,25 @@ public class GenshinApp {
         } else {
             printList(selected);
         }
-        isContinue();
     }
 
     // EFFECTS: asks user to choose a list
     private CharacterList selectList() {
         int selected = 0;  // force entry into loop
-        if (lists.size() == 1) {
+        if (profile.getListSize() == 1) {
             System.out.println("Looks like you only have one list!");
-            return lists.get(0);
+            return profile.getList(0);
         } else {
-            while (!(0 < selected && selected <= lists.size())) {
+            while (!(0 < selected && selected <= profile.getListSize())) {
                 System.out.println("Enter 1 for the first list, 2 for the second, all the way to a bazillion for the "
                         + "bazillionth list! Paimon doesn’t think she has seen a bazillion of anything before...");
-                for (int i = 0; i < lists.size(); i++) {
-                    System.out.println((i + 1) + ". " + lists.get(i).getName());
+                for (int i = 0; i < profile.getListSize(); i++) {
+                    System.out.println((i + 1) + ". " + profile.getList(i).getName());
                 }
                 try {
                     selected = Integer.parseInt(input.next());
-                    if (!(0 < selected && selected <= (lists.size()))) {
-                        System.out.println("That makes no sense! The number must be between 1 to " + lists.size());
+                    if (!(0 < selected && selected <= (profile.getListSize()))) {
+                        System.out.println("The number must be between 1 and " + profile.getListSize());
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Hmm that doesn’t make sense to Paimon, are you sure you entered a number?");
@@ -207,13 +266,37 @@ public class GenshinApp {
             }
         }
         selected--;
-        return lists.get(selected);
+        return profile.getList(selected);
     }
 
     // EFFECTS: returns list of characters in given list
     private void printList(CharacterList charList) {
         for (int i = 0; i < charList.getSize(); i++) {
             System.out.println((i + 1) + ". " + charList.getCharacter(i).getName());
+        }
+    }
+
+    //MODIFIES
+    // EFFECTS: saves profile to file
+    private void saveProile() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(profile);
+            jsonWriter.close();
+            System.out.println("Good idea! Paimon has saved your list information to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Hmrph, Paimon is stumped and can't save your lists to " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads profile from file
+    private void loadProfile() {
+        try {
+            profile = jsonReader.read();
+            System.out.println("Woohoo, your previous work has been loaded from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Arg! Paimon wasn't able to read from file: " + JSON_STORE);
         }
     }
 

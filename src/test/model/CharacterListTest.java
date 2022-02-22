@@ -1,6 +1,8 @@
 package model;
 
 import java.util.List;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,8 +15,8 @@ public class CharacterListTest {
     @BeforeEach
     void runBefore() {
         testList = new CharacterList("Owned Characters");
-        Eula = new Character("Eula", "Cryo", "Claymore", 80);
-        Albedo = new Character("Albedo", "Cryo", "Claymore", 80);
+        Eula = new Character("Eula", Vision.CRYO, Weapon.CLAYMORE, 80);
+        Albedo = new Character("Albedo", Vision.GEO, Weapon.SWORD, 80);
     }
 
     @Test

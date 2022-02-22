@@ -1,0 +1,49 @@
+{"lists": [
+    {
+        "characters": [
+            {
+                "vision": "CRYO",
+                "weapon": "CLAYMORE",
+                "level": 30,
+                "name": "Eula"
+            },
+            {
+                "vision": "PYRO",
+                "weapon": "SWORD",
+                "level": 80,
+                "name": "Bennett"
+            }
+        ],
+        "name": "Owned Characters"
+    },
+    {
+        "characters": [],
+        "name": "DPS"
+    },
+    {
+        "characters": [
+            {
+                "vision": "ANEMO",
+                "weapon": "CLAYMORE",
+                "level": 20,
+                "name": "Sayu"
+            },
+            {
+                "vision": "GEO",
+                "weapon": "SWORD",
+                "level": 81,
+                "name": "Albedo"
+            }
+        ],
+        "name": "Support"
+    },
+    {
+        "characters": [{
+            "vision": "CRYO",
+            "weapon": "BOW",
+            "level": 80,
+            "name": "Diona"
+        }],
+        "name": "Healers"
+    }
+]}

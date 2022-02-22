@@ -11,19 +11,19 @@ class CharacterTest {
 
     @BeforeEach
     void runBefore() {
-        Eula = new Character("Eula", "Cryo", "Claymore", 80);
-        Albedo = new Character("Albedo", "Geo", "Sword", 80);
+        Eula = new Character("Eula", Vision.CRYO, Weapon.CLAYMORE, 80);
+        Albedo = new Character("Albedo", Vision.GEO, Weapon.SWORD, 80);
     }
 
     @Test
     void constructorTest() {
         assertEquals("Eula", Eula.getName());
-        assertEquals("Cryo", Eula.getElement());
-        assertEquals("Claymore", Eula.getWeapon());
+        assertEquals(Vision.CRYO, Eula.getVision());
+        assertEquals(Weapon.CLAYMORE, Eula.getWeapon());
         assertEquals(80, Eula.getLevel());
         assertEquals("Albedo", Albedo.getName());
-        assertEquals("Geo", Albedo.getElement());
-        assertEquals("Sword", Albedo.getWeapon());
+        assertEquals(Vision.GEO, Albedo.getVision());
+        assertEquals(Weapon.SWORD, Albedo.getWeapon());
         assertEquals(80, Albedo.getLevel());
     }
 

@@ -1,23 +1,24 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // represents a genshin character that stores their stats and traits
-public class Character {
+public class Character implements Writable {
 
     //fields
     String name;      // character's name
-    String element;   // character's element
-    String weapon;    // character's weapon type
+    Vision vision;    // character's vision
+    Weapon weapon;    // character's weapon type
     int level;        // character's current level
 
     /*
-    * REQUIRES: element be one of "pyro", "cryo", "electro", "hydro", "anemo", "dendro" , "geo"
-    *           weapon be one of "sword", "spear", "claymore", "bow"
-    *           level > 0
+    * REQUIRES: level > 0
     * EFFECTS: creates character set with traits that user inputs
     */
-    public Character(String name, String element, String weapon, int level) {
+    public Character(String name, Vision vision, Weapon weapon, int level) {
         this.name = name;
-        this.element = element;
+        this.vision = vision;
         this.weapon = weapon;
         this.level = level;
     }
@@ -35,17 +36,27 @@ public class Character {
         }
     }
 
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("vision", vision);
+        json.put("weapon", weapon);
+        json.put("level", level);
+        return json;
+    }
+
     // get functions for testing
 
     public String getName() {
         return name;
     }
 
-    public String getElement() {
-        return element;
+    public Vision getVision() {
+        return vision;
     }
 
-    public String getWeapon() {
+    public Weapon getWeapon() {
         return weapon;
     }
 

@@ -1,9 +1,13 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class CharacterList {
+public class CharacterList implements Writable {
     // represents a list of genshin characters
 
     // fields
@@ -60,6 +64,25 @@ public class CharacterList {
     // EFFECTS: returns true if character list is empty, false otherwise
     public boolean empty() {
         return characters.isEmpty();
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("characters", charactersToJson());
+        return json;
+    }
+
+    // EFFECTS: returns characters in this character list as a JSON array
+    private JSONArray charactersToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Character c : characters) {
+            jsonArray.put(c.toJson());
+        }
+
+        return jsonArray;
     }
 
     // get functions for testing
