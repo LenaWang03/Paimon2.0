@@ -56,5 +56,5 @@ sticky notes or loose papers.
 
 ## Phase 2 User Stories
 - As a user, I want to be able to have the option of saving when I quit the application
-- As a user, I want to have the option to save in the options menu without quitting
-- As a user, I want to be able to load my previous lists
+- As a user, I want to have the option to save in the option menu without quitting
+- As a user, I want to have the option to load my previous lists
