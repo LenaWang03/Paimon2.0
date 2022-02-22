@@ -19,7 +19,7 @@ public class GenshinApp {
     private boolean keepGoing = true;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
-    Profile profile = new Profile();
+    Profile profile;
 
 
     // EFFECTS: triggers the run genshin application method
@@ -37,7 +37,7 @@ public class GenshinApp {
         if (restore.equals("y")) {
             loadProfile();
         } else if (restore.equals("n")) {
-            System.out.println("Great! Paimon will start a new profile for you!");
+            createProfile();
         }
 
         while (keepGoing) {
@@ -64,13 +64,22 @@ public class GenshinApp {
     // MODIFIES: this
     // EFFECTS: initializes starting list, input, and saving abilities
     private void init() {
-        CharacterList owned = new CharacterList("Owned Characters");
+
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
-        profile.addList(owned);
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         System.out.println("Hi there! My name is Paimon! Welcome to your Genshin Tracker");
+    }
+
+    private void createProfile() {
+        System.out.println("Great! Paimon will start a new profile for you!");
+        System.out.println("Whats your name?");
+        String name = input.next();
+        profile = new Profile(name);
+        CharacterList owned = new CharacterList("Owned Characters");
+        profile.addList(owned);
+        System.out.println("Hello " + name + "! Your new profile has been created");
     }
 
     // EFFECTS: displays menu of options to user
@@ -264,20 +273,20 @@ public class GenshinApp {
     // EFFECTS: asks user to choose a list
     private CharacterList selectList() {
         int selected = 0;  // force entry into loop
-        if (profile.getListSize() == 1) {
+        if (profile.getSize() == 1) {
             System.out.println("Looks like you only have one list!");
             return profile.getList(0);
         } else {
-            while (!(0 < selected && selected <= profile.getListSize())) {
+            while (!(0 < selected && selected <= profile.getSize())) {
                 System.out.println("Enter 1 for the first list, 2 for the second, all the way to a bazillion for the "
                         + "bazillionth list! Paimon doesn’t think she has seen a bazillion of anything before...");
-                for (int i = 0; i < profile.getListSize(); i++) {
+                for (int i = 0; i < profile.getSize(); i++) {
                     System.out.println((i + 1) + ". " + profile.getList(i).getName());
                 }
                 try {
                     selected = Integer.parseInt(input.next());
-                    if (!(0 < selected && selected <= (profile.getListSize()))) {
-                        System.out.println("The number must be between 1 and " + profile.getListSize());
+                    if (!(0 < selected && selected <= (profile.getSize()))) {
+                        System.out.println("The number must be between 1 and " + profile.getSize());
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Hmm that doesn’t make sense to Paimon, are you sure you entered a number?");
@@ -314,7 +323,8 @@ public class GenshinApp {
     private void loadProfile() {
         try {
             profile = jsonReader.read();
-            System.out.println("Woohoo, your previous work has been loaded from " + JSON_STORE);
+            System.out.println("Woohoo, your previous work saved under " + profile.getName()
+                    + " has been retrieved");
         } catch (IOException e) {
             System.out.println("Arg! Paimon wasn't able to read from file: " + JSON_STORE);
         }

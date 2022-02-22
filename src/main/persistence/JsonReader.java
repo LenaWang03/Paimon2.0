@@ -41,7 +41,8 @@ public class JsonReader {
 
     // EFFECTS: parses profile from JSON object and returns it
     private Profile parseProfile(JSONObject jsonObject) {
-        Profile p = new Profile();
+        String name = jsonObject.getString("name");
+        Profile p = new Profile(name);
         addLists(p, jsonObject);
         return p;
     }

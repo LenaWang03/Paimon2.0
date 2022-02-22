@@ -1,0 +1,20 @@
+{"lists": [
+  {
+    "characters": [
+      {
+        "vision": "CRYO",
+        "weapon": "CLAYMORE",
+        "level": 30,
+        "name": "Eula"
+      },
+      {
+        "vision": "GEO",
+        "weapon": "SWORD",
+        "level": 80,
+        "name": "Albedo"
+      }
+    ],
+    "name": "Owned Characters"
+  }
+],
+"name": "Lena"}

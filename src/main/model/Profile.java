@@ -10,14 +10,17 @@ import java.util.List;
 public class Profile implements Writable {
 
     private List<CharacterList> lists;
+    private String name;
 
-    public Profile() {
+    public Profile(String name) {
+        this.name = name;
         lists = new ArrayList<>();
     }
 
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
+        json.put("name", name);
         json.put("lists", listsToJson());
         return json;
     }
@@ -37,8 +40,12 @@ public class Profile implements Writable {
         lists.add(cl);
     }
 
-    public int getListSize() {
+    public int getSize() {
         return lists.size();
+    }
+
+    public String getName() {
+        return name;
     }
 
     public CharacterList getList(int i) {

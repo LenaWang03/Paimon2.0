@@ -64,16 +64,32 @@ public class CharacterListTest {
     }
 
     @Test
-    void getSize() {
+    void testgetSize() {
         assertEquals(0, testList.getSize());
     }
 
     @Test
-    void getCharacter() {
+    void testGetCharacter() {
         testList.addCharacterToList(Eula);
         testList.addCharacterToList(Albedo);
         assertEquals(Eula, testList.getCharacter(0));
         assertEquals(Albedo, testList.getCharacter(1));
     }
 
+    @Test
+    void testToJson() {
+        testList.toJson();
+        assertEquals(2, testList.toJson().length());
+        assertEquals("Owned Characters", testList.toJson().getString("name"));
+    }
+
+    @Test
+    void testCharacterToJson() {
+        testList.addCharacterToList(Eula);
+        testList.toJson();
+        assertEquals(1, testList.toJson().getJSONArray("characters").length());
+        testList.addCharacterToList(Albedo);
+        testList.toJson();
+        assertEquals(2, testList.toJson().getJSONArray("characters").length());
+    }
 }

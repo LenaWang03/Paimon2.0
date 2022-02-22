@@ -66,6 +66,7 @@ public class CharacterList implements Writable {
         return characters.isEmpty();
     }
 
+    // EFFECTS: returns JSON object of character list name and characters
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();

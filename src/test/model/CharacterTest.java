@@ -34,4 +34,13 @@ class CharacterTest {
         Albedo.increaseLevel(4);
         assertEquals(84, Albedo.getLevel());
     }
+
+    @Test
+    void testToJson() {
+        Eula.toJson();
+        assertEquals("Eula", Eula.toJson().getString("name"));
+        assertEquals(80, Eula.toJson().getInt("level"));
+        //assertEquals("CRYO", Eula.toJson().getString("vision"));
+        //assertEquals("CLAYMORE", Eula.toJson().getString("weapon"));
+    }
 }
