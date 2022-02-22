@@ -8,6 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
+// * code from phase 1 based on the teller application provided in course materials
+
+
 // Genshin Application
 public class GenshinApp {
     private CharacterList owned;
@@ -15,7 +19,7 @@ public class GenshinApp {
     List<CharacterList> lists = new ArrayList<>();
     private boolean keepGoing = true;
 
-    // EFFECTS: runs the teller application
+    // EFFECTS: runs the genshin application
     public GenshinApp() {
         runGenshin();
     }

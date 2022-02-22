@@ -53,3 +53,8 @@ sticky notes or loose papers.
 - As a user, I want to be able to add characters to my created lists
 - As a user, I want to be able to remove characters from my created lists
 - As a user, I want to be able to view all my lists/ teams created
+
+## Phase 2 User Stories
+- As a user, I want to be able to have the option of saving when I quit the application
+- As a user, I want to have the option to save in the options menu without quitting
+- As a user, I want to be able to load my previous lists
