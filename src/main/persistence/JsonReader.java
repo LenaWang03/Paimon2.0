@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 import model.Character;
 import org.json.*;
 
-// Represents a reader that reads workroom from JSON data stored in file
+// Represents a reader that reads a user profile from JSON data stored in file
 public class JsonReader {
     private String source;
 
@@ -35,7 +35,6 @@ public class JsonReader {
         try (Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8)) {
             stream.forEach(s -> contentBuilder.append(s));
         }
-
         return contentBuilder.toString();
     }
 
@@ -47,7 +46,7 @@ public class JsonReader {
         return p;
     }
 
-    // EFFECTS: parses character list from JSON object adds them to workroom
+    // EFFECTS: parses character list from JSON object adds them to profile
     private void addLists(Profile p, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("lists");
         for (Object json : jsonArray) {
@@ -57,7 +56,7 @@ public class JsonReader {
     }
 
     // MODIFIES: p
-    // EFFECTS: parses characters from JSON object and adds them to workroom
+    // EFFECTS: parses list from JSON object and adds it to profile
     private void addList(Profile p, JSONObject jsonObject) {
         String name = jsonObject.getString("name");
         CharacterList cl = new CharacterList(name);
@@ -66,7 +65,7 @@ public class JsonReader {
     }
 
     // MODIFIES: cl
-    // EFFECTS: parses characters from JSON object and adds them to workroom
+    // EFFECTS: parses characters from JSON object and adds them to profile
     private void addCharacters(CharacterList cl, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("characters");
         for (Object json : jsonArray) {
@@ -76,7 +75,7 @@ public class JsonReader {
     }
 
     // MODIFIES: cl
-    // EFFECTS: parses character from JSON object and adds it to workroom
+    // EFFECTS: parses character from JSON object and adds it to profile
     private void addCharacter(CharacterList cl, JSONObject jsonObject) {
         Vision vision = Vision.valueOf(jsonObject.getString("vision"));
         Weapon weapon = Weapon.valueOf(jsonObject.getString("weapon"));

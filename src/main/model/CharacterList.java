@@ -7,15 +7,16 @@ import persistence.Writable;
 import java.util.ArrayList;
 import java.util.List;
 
+// represents a list of genshin characters
 public class CharacterList implements Writable {
-    // represents a list of genshin characters
+
 
     // fields
     private String name; // name of the list
     private List<Character> characters; // list of characters
 
     // REQUIRES: name to not be equal to pre-existing list
-    // EFFECTS: creates new character list with
+    // EFFECTS: creates new character list with a name
     public CharacterList(String name) {
         this.name = name;
         characters = new ArrayList<>();
@@ -86,7 +87,7 @@ public class CharacterList implements Writable {
         return jsonArray;
     }
 
-    // get functions for testing
+    // getter methods for testing
 
     public String getName() {
         return name;

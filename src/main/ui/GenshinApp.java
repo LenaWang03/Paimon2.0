@@ -3,6 +3,7 @@ package ui;
 import model.*;
 
 import model.Character;
+import exceptions.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -12,7 +13,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
-// Genshin Application
+// Represents Genshin Application
 public class GenshinApp {
     private static final String JSON_STORE = "./data/lists.json";
     private Scanner input;
@@ -30,16 +31,18 @@ public class GenshinApp {
     // EFFECTS: runs the genshin application
     private void runGenshin() {
         String request;
+        Boolean valid = false;
         init();
         System.out.println("Welcome back! Would you like Paimon to restore list information "
-                + "from your previous session? (y/n)");
-        String restore = input.next();
-        if (restore.equals("y")) {
-            loadProfile();
-        } else if (restore.equals("n")) {
-            createProfile();
+                + "from the previous session? (y/n)");
+        while (!valid) {
+            try {
+                profileAction();
+                valid = true;
+            } catch (ProfileInputException e) {
+                System.out.println("hmm that doens't make any sense to Paimon, try again!");
+            }
         }
-
         while (keepGoing) {
             displayMenu();
             request = input.next();
@@ -48,18 +51,56 @@ public class GenshinApp {
         }
     }
 
-    //MODIFIES: keepGoing
-    // EFFECTS: stops application
-    private void quit() {
-        System.out.println("Phew! Thats enough list making for today! "
-                + "Would you like Paimon to save your work? (y/n)\n");
-        String reply = input.next();
-        if (reply.equals("y")) {
-            saveProile();
+    // EFFECTS: determines if user wants to restore profile or make new profile
+    private void profileAction() throws ProfileInputException {
+        String restore = input.next();
+        if (restore.equals("y")) {
+            loadProfile();
+        } else if (restore.equals("n")) {
+            createProfile();
+        } else {
+            throw new ProfileInputException();
         }
-        System.out.println("It was fun chatting with you. See you again!");
-        keepGoing = false;
     }
+
+    // EFFECTS: creates new profile for user
+    private void createProfile() {
+        System.out.println("Great! Paimon will start a new profile for you!");
+        System.out.println("Whats your name?");
+        String name = input.next();
+        profile = new Profile(name);
+        CharacterList owned = new CharacterList("Owned Characters");
+        profile.addList(owned);
+        System.out.println("Hello " + name + "! Your new profile has been created");
+    }
+
+    // MODIFIES
+    // EFFECTS: saves profile to file
+    private void saveProfile() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(profile);
+            jsonWriter.close();
+            System.out.println("Good idea! Paimon has saved your list information under the name"
+                    + profile.getName() + " to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Hmrph, Paimon is stumped and can't save your lists to " + JSON_STORE);
+        }
+        isContinue();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads profile from file
+    private void loadProfile() {
+        try {
+            profile = jsonReader.read();
+            System.out.println("Woohoo, your previous work saved under " + profile.getName()
+                    + " has been retrieved");
+        } catch (IOException e) {
+            System.out.println("Arg! Paimon wasn't able to retrieve the profile! from " + JSON_STORE);
+        }
+    }
+
 
     // MODIFIES: this
     // EFFECTS: initializes starting list, input, and saving abilities
@@ -70,16 +111,6 @@ public class GenshinApp {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         System.out.println("Hi there! My name is Paimon! Welcome to your Genshin Tracker");
-    }
-
-    private void createProfile() {
-        System.out.println("Great! Paimon will start a new profile for you!");
-        System.out.println("Whats your name?");
-        String name = input.next();
-        profile = new Profile(name);
-        CharacterList owned = new CharacterList("Owned Characters");
-        profile.addList(owned);
-        System.out.println("Hello " + name + "! Your new profile has been created");
     }
 
     // EFFECTS: displays menu of options to user
@@ -107,7 +138,7 @@ public class GenshinApp {
                 break;
             case "4": viewList();
                 break;
-            case "5": saveProile();
+            case "5": saveProfile();
                 break;
             case "6": quit();
                 break;
@@ -304,30 +335,16 @@ public class GenshinApp {
         }
     }
 
-    //MODIFIES
-    // EFFECTS: saves profile to file
-    private void saveProile() {
-        try {
-            jsonWriter.open();
-            jsonWriter.write(profile);
-            jsonWriter.close();
-            System.out.println("Good idea! Paimon has saved your list information to " + JSON_STORE);
-        } catch (FileNotFoundException e) {
-            System.out.println("Hmrph, Paimon is stumped and can't save your lists to " + JSON_STORE);
+    // MODIFIES: keepGoing
+    // EFFECTS: stops application
+    private void quit() {
+        System.out.println("Phew! Thats enough list making for today! "
+                + "Would you like Paimon to save your work? (y/n)\n");
+        String reply = input.next();
+        if (reply.equals("y")) {
+            saveProfile();
         }
-        isContinue();
+        System.out.println("It was fun chatting with you " + profile.getName() + ". See you again!");
+        keepGoing = false;
     }
-
-    // MODIFIES: this
-    // EFFECTS: loads profile from file
-    private void loadProfile() {
-        try {
-            profile = jsonReader.read();
-            System.out.println("Woohoo, your previous work saved under " + profile.getName()
-                    + " has been retrieved");
-        } catch (IOException e) {
-            System.out.println("Arg! Paimon wasn't able to read from file: " + JSON_STORE);
-        }
-    }
-
 }

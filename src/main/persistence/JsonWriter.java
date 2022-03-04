@@ -7,7 +7,7 @@ import java.util.List;
 
 import java.io.*;
 
-// Represents a writer that writes JSON representation of workroom to file
+// Represents a writer that writes JSON representation of a user profile to file
 public class JsonWriter {
     private static final int TAB = 4;
     private PrintWriter writer;
@@ -31,7 +31,6 @@ public class JsonWriter {
         JSONObject json = p.toJson();
         saveToFile(json.toString(TAB));
     }
-
 
     // MODIFIES: this
     // EFFECTS: closes writer

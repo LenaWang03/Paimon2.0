@@ -7,16 +7,19 @@ import persistence.Writable;
 import java.util.ArrayList;
 import java.util.List;
 
+// Represents a profile that is dedicated to the current user that stores all their info
 public class Profile implements Writable {
 
     private List<CharacterList> lists;
     private String name;
 
+    // EFFECTS: constructs a profile and assigns it a name
     public Profile(String name) {
         this.name = name;
         lists = new ArrayList<>();
     }
 
+    // EFFECTS: returns the profile info as a json object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -36,9 +39,12 @@ public class Profile implements Writable {
         return jsonArray;
     }
 
+    // EFFECTS: adds a character list to the profile
     public void addList(CharacterList cl) {
         lists.add(cl);
     }
+
+    // getter methods
 
     public int getSize() {
         return lists.size();

@@ -12,10 +12,9 @@ public class Character implements Writable {
     Weapon weapon;    // character's weapon type
     int level;        // character's current level
 
-    /*
-    * REQUIRES: level > 0
-    * EFFECTS: creates character set with traits that user inputs
-    */
+
+    // REQUIRES: level > 0
+    // EFFECTS: creates character set with traits that user inputs
     public Character(String name, Vision vision, Weapon weapon, int level) {
         this.name = name;
         this.vision = vision;
@@ -23,11 +22,9 @@ public class Character implements Writable {
         this.level = level;
     }
 
-    /*
-     * REQUIRES: amount > 0
-     * MODIFIES: this
-     * EFFECTS: increases character level unless character has already reached level 90
-     */
+     // REQUIRES: amount > 0
+     // MODIFIES: this
+     // EFFECTS: increases character level unless character has already reached level 90
     public void increaseLevel(int amount) {
         if (level + amount <= 90) {
             level += amount;
@@ -36,6 +33,7 @@ public class Character implements Writable {
         }
     }
 
+    // EFFECTS: converts character information into a json object
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
@@ -47,7 +45,7 @@ public class Character implements Writable {
         return json;
     }
 
-    // get functions for testing
+    // getter methods for testing
 
     public String getName() {
         return name;
