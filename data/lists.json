@@ -18,7 +18,12 @@
             "name": "Owned Characters"
         },
         {
-            "characters": [],
+            "characters": [{
+                "vision": "PYRO",
+                "weapon": "CATALYST",
+                "level": 23,
+                "name": "Klee"
+            }],
             "name": "DPS"
         },
         {
@@ -46,6 +51,10 @@
                 "name": "Diona"
             }],
             "name": "Healers"
+        },
+        {
+            "characters": [],
+            "name": "Favourites"
         }
     ],
     "name": "Lena"

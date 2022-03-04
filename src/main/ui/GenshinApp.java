@@ -3,7 +3,6 @@ package ui;
 import model.*;
 
 import model.Character;
-import exceptions.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -31,17 +30,11 @@ public class GenshinApp {
     // EFFECTS: runs the genshin application
     private void runGenshin() {
         String request;
-        Boolean valid = false;
         init();
         System.out.println("Welcome back! Would you like Paimon to restore list information "
                 + "from the previous session? (y/n)");
-        while (!valid) {
-            try {
-                profileAction();
-                valid = true;
-            } catch (ProfileInputException e) {
-                System.out.println("hmm that doens't make any sense to Paimon, try again!");
-            }
+        while (!profileAction()) {
+            System.out.println("Hmm that doens't make any sense to Paimon, try again!");
         }
         while (keepGoing) {
             displayMenu();
@@ -52,14 +45,16 @@ public class GenshinApp {
     }
 
     // EFFECTS: determines if user wants to restore profile or make new profile
-    private void profileAction() throws ProfileInputException {
+    public boolean profileAction() {
         String restore = input.next();
         if (restore.equals("y")) {
             loadProfile();
+            return true;
         } else if (restore.equals("n")) {
             createProfile();
+            return true;
         } else {
-            throw new ProfileInputException();
+            return false;
         }
     }
 
@@ -81,12 +76,11 @@ public class GenshinApp {
             jsonWriter.open();
             jsonWriter.write(profile);
             jsonWriter.close();
-            System.out.println("Good idea! Paimon has saved your list information under the name"
+            System.out.println("Good idea! Paimon has saved your list information under the name "
                     + profile.getName() + " to " + JSON_STORE);
         } catch (FileNotFoundException e) {
             System.out.println("Hmrph, Paimon is stumped and can't save your lists to " + JSON_STORE);
         }
-        isContinue();
     }
 
     // MODIFIES: this
@@ -139,6 +133,7 @@ public class GenshinApp {
             case "4": viewList();
                 break;
             case "5": saveProfile();
+                isContinue();
                 break;
             case "6": quit();
                 break;
@@ -150,12 +145,16 @@ public class GenshinApp {
 
     // EFFECTS: gives user option of quitting or continuing
     private void isContinue() {
+        String answer;
         System.out.println("Does Paimon need to help you with anything else? (y/n)");
-        String answer = input.next();
+        answer = input.next();
+        while (!answer.equals("y") && !answer.equals("n")) {
+            System.out.println("Hmm that doesn’t make sense to Paimon, are you sure you entered correctly?");
+            System.out.println("Does Paimon need to help you with anything else? (y/n)");
+            answer = input.next();
+        }
         if (answer.equals("n")) {
             quit();
-        } else if (!answer.equals("y")) {
-            System.out.println("Hmm that doesn’t make sense to Paimon, are you sure you entered correctly?");
         }
     }
 
