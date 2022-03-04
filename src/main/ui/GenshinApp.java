@@ -21,7 +21,6 @@ public class GenshinApp {
     private JsonReader jsonReader;
     Profile profile;
 
-
     // EFFECTS: triggers the run genshin application method
     public GenshinApp() {
         runGenshin();

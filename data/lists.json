@@ -39,6 +39,12 @@
                     "weapon": "SWORD",
                     "level": 81,
                     "name": "Albedo"
+                },
+                {
+                    "vision": "ELECTRO",
+                    "weapon": "BOW",
+                    "level": 70,
+                    "name": "Fischl"
                 }
             ],
             "name": "Support"
@@ -55,6 +61,10 @@
         {
             "characters": [],
             "name": "Favourites"
+        },
+        {
+            "characters": [],
+            "name": "Testing List"
         }
     ],
     "name": "Lena"
