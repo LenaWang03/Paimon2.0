@@ -7,6 +7,7 @@ import java.util.List;
 
 import java.io.*;
 
+// *some code from phase 2 based on JSONSerializationDemo application provided in course materials
 // Represents a writer that writes JSON representation of a user profile to file
 public class JsonWriter {
     private static final int TAB = 4;

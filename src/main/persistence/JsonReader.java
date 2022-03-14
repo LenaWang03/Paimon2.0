@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import model.Character;
 import org.json.*;
 
+// *some code from phase 2 based on JSONSerializationDemo application provided in course materials
 // Represents a reader that reads a user profile from JSON data stored in file
 public class JsonReader {
     private String source;

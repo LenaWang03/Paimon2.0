@@ -7,6 +7,8 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
@@ -23,8 +25,10 @@ public class GenshinApp {
 
     // EFFECTS: triggers the run genshin application method
     public GenshinApp() {
-        runGenshin();
+        //runGenshin();
     }
+
+
 
     // EFFECTS: runs the genshin application
     private void runGenshin() {
@@ -58,7 +62,7 @@ public class GenshinApp {
     }
 
     // EFFECTS: creates new profile for user
-    private void createProfile() {
+    public void createProfile() {
         System.out.println("Great! Paimon will start a new profile for you!");
         System.out.println("Whats your name?");
         String name = input.next();

@@ -13,6 +13,12 @@
                     "weapon": "SWORD",
                     "level": 80,
                     "name": "Bennett"
+                },
+                {
+                    "vision": "ELECTRO",
+                    "weapon": "POLEARM",
+                    "level": 55,
+                    "name": "Raiden"
                 }
             ],
             "name": "Owned Characters"
@@ -65,6 +71,15 @@
         {
             "characters": [],
             "name": "Testing List"
+        },
+        {
+            "characters": [{
+                "vision": "CRYO",
+                "weapon": "BOW",
+                "level": 60,
+                "name": "Diona"
+            }],
+            "name": "idklist"
         }
     ],
     "name": "Lena"
