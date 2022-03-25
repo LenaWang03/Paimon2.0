@@ -59,5 +59,5 @@ sticky notes or loose papers.
 - As a user, I want to have the option to save in the option menu without quitting
 - As a user, I want to have the option to load my previous lists
 
-## Possible Phase 3 User Stories
-- As a user, I want to be able to access multiple profiles
+## Phase 3 User Stories
+- As a user, I want to be able to access the application through a GUI
