@@ -24,12 +24,20 @@
             "name": "Owned Characters"
         },
         {
-            "characters": [{
-                "vision": "PYRO",
-                "weapon": "CATALYST",
-                "level": 23,
-                "name": "Klee"
-            }],
+            "characters": [
+                {
+                    "vision": "PYRO",
+                    "weapon": "CATALYST",
+                    "level": 23,
+                    "name": "Klee"
+                },
+                {
+                    "vision": "HYDRO",
+                    "weapon": "BOW",
+                    "level": 68,
+                    "name": "Childe"
+                }
+            ],
             "name": "DPS"
         },
         {

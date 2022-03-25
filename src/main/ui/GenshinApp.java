@@ -13,6 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
 
+/***************************************************************************
+* This is the old file, keeping it for documentation/ progress purposes    *
+****************************************************************************/
+
 
 // Represents Genshin Application
 public class GenshinApp {

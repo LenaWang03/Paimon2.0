@@ -13,6 +13,7 @@ import persistence.JsonReader;
 import persistence.JsonWriter;
 
 public class Gui extends JFrame {
+
     JLabel loadCommand;
     Color bg;
     JPanel panelCont = new JPanel();
@@ -42,6 +43,7 @@ public class Gui extends JFrame {
     Boolean counter = false;
     Boolean counter2 = false;
 
+    // EFFECTS: starts running the application
     public Gui() {
         setTitle("Genshin Character Tracker");
         setSize(1000,800);
@@ -54,6 +56,8 @@ public class Gui extends JFrame {
         setVisible(true);
     }
 
+    // MODIFIES: panelCont
+    // EFFECTS: initializes the different panels the game needs (start, main, and create profile)
     private void initCardLayout() {
         panelCont.setLayout(cl);
         initStartPanel();
@@ -65,6 +69,8 @@ public class Gui extends JFrame {
         add(panelCont);
     }
 
+    // MODIFIES: initCont
+    // EFFECTS: initializes the start panel you see at the beginning of the game
     private void initStartPanel() {
         initPanel(startPanel);
         GridBagConstraints c = new GridBagConstraints();
@@ -78,7 +84,7 @@ public class Gui extends JFrame {
         c.gridy = 1;
         startPanel.add(new JLabel(new ImageIcon(scaleImage)), c);
         loadCommand = new JLabel("Welcome back! Would you like Paimon to restore list information "
-                + "from the previous session? (y/n)", SwingConstants.CENTER);
+                + "from the previous session?", SwingConstants.CENTER);
         c.gridy = 2;
         startPanel.add(loadCommand, c);
         c.gridwidth = 1;
@@ -90,6 +96,8 @@ public class Gui extends JFrame {
         startPanel.add(new JButton(new CreateProfileAction()), c);
     }
 
+    // MODIFIES: panel
+    // EFFECTS: does the basic initialization tasks that every panel needs
     private void initPanel(JPanel panel) {
         panel.setBorder(BorderFactory.createEmptyBorder(30,30,30,30));
         panel.setBackground(bg);
@@ -97,7 +105,36 @@ public class Gui extends JFrame {
         setVisible(true);
     }
 
+    // MODIFIES: profilePanel
+    // EFFECTS: initializes the profilePanel where you create a new profile
+    private void initProfilePanel() {
+        initPanel(profilePanel);
+        GridBagConstraints c = new GridBagConstraints();
+        JLabel pageLabel = new JLabel("Paimon 2.0 - A tracker for your Genshin Characters", SwingConstants.CENTER);
+        pageLabel.setFont(new java.awt.Font("lemon/milk", 0, 20));
+        c.gridwidth = 3;
+        profilePanel.add(pageLabel, c);
+        ImageIcon logo = new ImageIcon(getClass().getResource("/images/genshin.png"));
+        Image scaleImage = logo.getImage().getScaledInstance(600, 200,Image.SCALE_SMOOTH);
+        c.weighty = 2;
+        c.gridy = 1;
+        profilePanel.add(new JLabel(new ImageIcon(scaleImage)), c);
+        c.gridy = 2;
+        profilePanel.add(new JLabel("Great! Paimon will start a new profile for you!"), c);
+        JLabel labelName = new JLabel("Name");
+        c.weighty = 0;
+        c.gridy = 3;
+        profilePanel.add(labelName, c);
+        txtProfileInput = new JTextField(20);
+        c.gridy = 4;
+        profilePanel.add(txtProfileInput, c);
+        c.gridy = 5;
+        c.weighty = 5;
+        profilePanel.add(new JButton(new ParseProfileAction()), c);
+    }
 
+    // MODIFIES: mainPanel
+    // EFFECTS: initializes the main panel where you select actions
     private void initMainPanel() {
         initPanel(mainPanel);
         GridBagConstraints c = new GridBagConstraints();
@@ -107,7 +144,7 @@ public class Gui extends JFrame {
         mainPanel.add(pageLabel, c);
         c.weighty = 2;
         c.gridy = 1;
-        mainPanel.add(createWorkPanel(), c);
+        mainPanel.add(initWorkPanel(), c);
         c.gridwidth = 1;
         c.gridy = 2;
         c.weightx = 1;
@@ -121,10 +158,12 @@ public class Gui extends JFrame {
         c.gridwidth = 4;
         c.gridx = 0;
         c.gridy = 3;
-        mainPanel.add(createPaimonTextPanel(), c);
+        mainPanel.add(initPaimonTextPanel(), c);
     }
 
-    private JPanel createWorkPanel() {
+    // MODIFIES: this
+    // EFFECTS: initializes the work panel where you perform actions
+    private JPanel initWorkPanel() {
         JPanel addPanel = new JPanel();
         JPanel removePanel = new JPanel();
         JPanel viewPanel = new JPanel();
@@ -148,6 +187,8 @@ public class Gui extends JFrame {
         return workPanel;
     }
 
+    // MODIFIES: p
+    // EFFECTS: initializes the view panel where you view character lists
     private void initViewPanel(JPanel p) {
         p.setLayout(new BorderLayout());
         JComboBox<String> list = new JComboBox();
@@ -162,6 +203,8 @@ public class Gui extends JFrame {
 
     }
 
+    // MODIFIES: p
+    // EFFECTS: initializes the remove panel where you remove characters
     private void initRemovePanel(JPanel p) {
         p.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 150));
         JComboBox<String> lists = new JComboBox();
@@ -179,6 +222,8 @@ public class Gui extends JFrame {
         setVisible(true);
     }
 
+    // MODIFIES: p
+    // EFFECTS: initializes the add panel where you add new characters
     private void initAddPanel(JPanel p) {
         p.setLayout(new GridLayout(6, 2, 0, 0));
         lists = new JComboBox();
@@ -205,7 +250,9 @@ public class Gui extends JFrame {
         setVisible(true);
     }
 
-    private JPanel createPaimonTextPanel() {
+    // MODIFIES: paimonPanel
+    // EFFECTS: initializes the text panel where paimon interacts with you
+    private JPanel initPaimonTextPanel() {
         JPanel paimonPanel = new JPanel();
         paimonPanel.setBackground(Color.BLACK);
         paimonPanel.setPreferredSize(new Dimension(900, 200));
@@ -223,44 +270,22 @@ public class Gui extends JFrame {
         return paimonPanel;
     }
 
-    private void initProfilePanel() {
-        initPanel(profilePanel);
-        GridBagConstraints c = new GridBagConstraints();
-        JLabel pageLabel = new JLabel("Paimon 2.0 - A tracker for your Genshin Characters", SwingConstants.CENTER);
-        pageLabel.setFont(new java.awt.Font("lemon/milk", 0, 20));
-        c.gridwidth = 3;
-        profilePanel.add(pageLabel, c);
-        ImageIcon logo = new ImageIcon(getClass().getResource("/images/genshin.png"));
-        Image scaleImage = logo.getImage().getScaledInstance(600, 200,Image.SCALE_SMOOTH);
-        c.weighty = 2;
-        c.gridy = 1;
-        profilePanel.add(new JLabel(new ImageIcon(scaleImage)), c);
-        c.gridy = 2;
-        profilePanel.add(new JLabel("Great! Paimon will start a new profile for you!"), c);
-        JLabel labelName = new JLabel("Name");
-        c.weighty = 0;
-        c.gridy = 3;
-        profilePanel.add(labelName, c);
-        txtProfileInput = new JTextField(20);
-        c.gridy = 4;
-        profilePanel.add(txtProfileInput, c);
-        c.gridy = 5;
-        c.weighty = 5;
-        profilePanel.add(new JButton(new ParseProfileAction()), c);
-
-    }
-
+    // represents loading button
     private class LoadAction extends AbstractAction {
         LoadAction() {
             super("Load");
         }
 
+
+        // MODIFIES: this
+        //EFFECTS: loads information from previous session from file
         @Override
         public void actionPerformed(ActionEvent evt) {
             try {
                 profile = jsonReader.read();
                 dialogue.setText("<html> Paimon: Hi there! My name is Paimon! Welcome to your Genshin Tracker <br/>"
-                        + "Woohoo, your previous work saved under " + profile.getName() + "has been retrieved </html>");
+                        + "Woohoo, your previous work saved under "
+                        + profile.getName() + " has been retrieved </html>");
             } catch (IOException e) {
                 System.out.println("Arg! Paimon wasn't able to retrieve the profile! from " + JSON_STORE);
             }
@@ -269,11 +294,13 @@ public class Gui extends JFrame {
         }
     }
 
+    // represents a button for creating a profile
     private class CreateProfileAction extends AbstractAction {
         CreateProfileAction() {
             super("Create Profile");
         }
 
+        // EFFECTS: takes user to the profile maker page
         @Override
         public void actionPerformed(ActionEvent evt) {
             initProfilePanel();
@@ -282,11 +309,13 @@ public class Gui extends JFrame {
         }
     }
 
+    // represents a button for submitting new profile form
     private class ParseProfileAction extends AbstractAction {
         ParseProfileAction() {
             super("Submit");
         }
 
+        // EFFECTS: submits information user has entered into the new profile form
         @Override
         public void actionPerformed(ActionEvent evt) {
             String name = txtProfileInput.getText();
@@ -300,11 +329,14 @@ public class Gui extends JFrame {
         }
     }
 
+    // represents button for adding characters
     private class AddCharacterAction extends AbstractAction {
         AddCharacterAction() {
             super("Add Character");
         }
 
+        // MODIFIES: GUI
+        // EFFECTS: brings user to the add characters panel
         @Override
         public void actionPerformed(ActionEvent evt) {
             addCharacter.setEnabled(false);
@@ -315,12 +347,15 @@ public class Gui extends JFrame {
         }
     }
 
+    // represents a button that submits the form for adding characters
     private class AddSelectedAction extends AbstractAction {
         AddSelectedAction() {
             super("Add");
 
         }
 
+        // MODIFIES: GUI
+        // EFFECTS: adds a character according to the information user submitted in the form
         @Override
         public void actionPerformed(ActionEvent evt) {
             try {
@@ -341,11 +376,14 @@ public class Gui extends JFrame {
         }
     }
 
+    // represents a button for removing characters
     private class RemoveCharacterAction extends AbstractAction {
         RemoveCharacterAction() {
             super("Remove Character");
         }
 
+        // MODIFIES: GUI
+        // EFFECTS: brings user to the remove characters panel
         @Override
         public void actionPerformed(ActionEvent evt) {
             addCharacter.setEnabled(true);
@@ -357,7 +395,7 @@ public class Gui extends JFrame {
         }
     }
 
-
+    // represents a combo action for remove character
     private class RemoveComboAction extends AbstractAction {
         JComboBox<String> lists;
 
@@ -365,6 +403,7 @@ public class Gui extends JFrame {
             this.lists = lists;
         }
 
+        // EFFECTS: updates the current list that is printed to the screen
         @Override
         public void actionPerformed(ActionEvent evt) {
             String list = (String) lists.getSelectedItem();
@@ -385,6 +424,7 @@ public class Gui extends JFrame {
         }
     }
 
+    // represents a button that submits the form for removing characters
     private class RemoveSelectedAction extends AbstractAction {
         JComboBox lists;
         JComboBox characters;
@@ -395,6 +435,8 @@ public class Gui extends JFrame {
             this.characters = character;
         }
 
+        // MODIFIES: lists, characters
+        // EFFECTS: removes the character from the selected list and updates the list being displayed
         @Override
         public void actionPerformed(ActionEvent evt) {
             String list = (String) lists.getSelectedItem();
@@ -421,11 +463,14 @@ public class Gui extends JFrame {
         }
     }
 
+    // represents a button for viewing lists
     private class ViewListAction extends AbstractAction {
         ViewListAction() {
             super("View List");
         }
 
+        // MODIFIES: GUI
+        // EFFECTS: brings user to the view characters panel
         @Override
         public void actionPerformed(ActionEvent evt) {
             addCharacter.setEnabled(true);
@@ -437,33 +482,7 @@ public class Gui extends JFrame {
         }
     }
 
-    private class QuitAction extends AbstractAction {
-        QuitAction() {
-            super("Quit");
-        }
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            JFrame frame = new JFrame();
-            int result = JOptionPane.showConfirmDialog(frame, "Paimon: Phew! That's enough list making for "
-                    + "today! Would you like Paimon to save your work?");
-
-            if (result == 0) {
-                try {
-                    jsonWriter.open();
-                    jsonWriter.write(profile);
-                    jsonWriter.close();
-                    System.exit(0);
-                } catch (FileNotFoundException e) {
-                    dialogue.setText("Paimon: Hmrph, Paimon is stumped and can't save your lists to " + JSON_STORE);
-                }
-            } else if (result == 1) {
-                System.exit(0);
-            }
-        }
-    }
-
-
+    // represents combo action for viewing lists
     private class ViewComboAction extends AbstractAction {
         JComboBox<String> list;
 
@@ -472,6 +491,8 @@ public class Gui extends JFrame {
             this.list = list;
         }
 
+        // MODIFIES: GUI
+        // EFFECTS: displays selected lists on screen
         @Override
         public void actionPerformed(ActionEvent evt) {
             String selectedString = (String) list.getSelectedItem();
@@ -493,12 +514,40 @@ public class Gui extends JFrame {
                             + "\n      Vision: " + selected.getCharacter(j).getVision()
                             + "\n      Weapon: " + selected.getCharacter(j).getWeapon()
                             + "\n      Level: " + selected.getCharacter(j).getLevel();
-
                     }
                 }
             }
             output.setText(stringOutput);
             setVisible(true);
+        }
+    }
+
+    // represents a button for quitting
+    private class QuitAction extends AbstractAction {
+        QuitAction() {
+            super("Quit");
+        }
+
+        // MODIFIES: GUI
+        // EFFECTS: quits the program and saves work if user chooses to do so
+        @Override
+        public void actionPerformed(ActionEvent evt) {
+            JFrame frame = new JFrame();
+            int result = JOptionPane.showConfirmDialog(frame, "Paimon: Phew! That's enough list making for "
+                    + "today! Would you like Paimon to save your work?");
+
+            if (result == 0) {
+                try {
+                    jsonWriter.open();
+                    jsonWriter.write(profile);
+                    jsonWriter.close();
+                    System.exit(0);
+                } catch (FileNotFoundException e) {
+                    dialogue.setText("Paimon: Hmrph, Paimon is stumped and can't save your lists to " + JSON_STORE);
+                }
+            } else if (result == 1) {
+                System.exit(0);
+            }
         }
     }
 }
