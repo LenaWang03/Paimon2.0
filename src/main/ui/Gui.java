@@ -13,6 +13,7 @@ import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+// represents GUI for the Genshin application
 public class Gui extends JFrame {
 
     JLabel loadCommand;
