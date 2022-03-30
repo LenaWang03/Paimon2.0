@@ -81,7 +81,7 @@ Example of event log:
 - Diona removed from list Healers
 - Klee removed from list DPS
 
-No events are logged when the programs runs if the user decides to not perform any actions 
+No events are logged when the program runs if the user decides to not perform any actions 
 with the two actions that are being logged. For an example, a user might just want to view 
 their lists instead of adding or deleting from them. 
 
