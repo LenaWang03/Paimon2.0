@@ -61,3 +61,27 @@ sticky notes or loose papers.
 
 ## Phase 3 User Stories
 - As a user, I want to be able to access the application through a GUI
+
+## Phase 4 User Stories
+- As a user, I want to be able to see a log of all the events related to the model package that occured
+printed to the console after I close the application
+
+## Phase 4: Task 2
+Example of event log:
+- Bennett added to list Owned Characters
+- Raiden added to list Owned Characters
+- Eula added to list Owned Characters
+- Klee added to list DPS 
+- Childe added to list DPS
+- Sayu added to list Support
+- Albedo added to list Support
+- Fischl added to list Support
+- Diona added to list Healers
+- Diona added to list idklist
+- Diona removed from list Healers
+- Klee removed from list DPS
+
+No events are logged when the programs runs if the user decides to not perform any actions 
+with the two actions that are being logged. For an example, a user might just want to view 
+their lists instead of adding or deleting from them. 
+

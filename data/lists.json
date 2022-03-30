@@ -3,12 +3,6 @@
         {
             "characters": [
                 {
-                    "vision": "CRYO",
-                    "weapon": "CLAYMORE",
-                    "level": 30,
-                    "name": "Eula"
-                },
-                {
                     "vision": "PYRO",
                     "weapon": "SWORD",
                     "level": 80,
@@ -19,6 +13,12 @@
                     "weapon": "POLEARM",
                     "level": 55,
                     "name": "Raiden"
+                },
+                {
+                    "vision": "CRYO",
+                    "weapon": "CLAYMORE",
+                    "level": 90,
+                    "name": "Eula"
                 }
             ],
             "name": "Owned Characters"

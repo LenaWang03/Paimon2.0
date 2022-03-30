@@ -9,6 +9,7 @@ import java.io.IOException;
 import model.*;
 
 import model.Character;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -47,12 +48,12 @@ public class Gui extends JFrame {
     public Gui() {
         setTitle("Genshin Character Tracker");
         setSize(1000,800);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setIconImage(new javax.swing.ImageIcon(getClass().getResource("/images/img.png")).getImage());
         bg = new Color(171, 167, 254);
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
         initCardLayout();
+        printLog();
         setVisible(true);
     }
 
@@ -67,6 +68,20 @@ public class Gui extends JFrame {
         panelCont.add(mainPanel, "main");
         cl.show(panelCont, "start");
         add(panelCont);
+    }
+
+
+    // EFFECTS: prints log to console if user closes application through the x button on the top right
+    private void printLog() {
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                for (Event e : EventLog.getInstance()) {
+                    System.out.println(e.getDescription());
+                }
+                System.exit(0);
+            }
+        });
     }
 
     // MODIFIES: initCont
@@ -287,7 +302,7 @@ public class Gui extends JFrame {
                         + "Woohoo, your previous work saved under "
                         + profile.getName() + " has been retrieved </html>");
             } catch (IOException e) {
-                System.out.println("Arg! Paimon wasn't able to retrieve the profile! from " + JSON_STORE);
+                dialogue.setText("Arg! Paimon wasn't able to retrieve the profile! from " + JSON_STORE);
             }
             initMainPanel();
             cl.show(panelCont, "main");
@@ -535,6 +550,10 @@ public class Gui extends JFrame {
             JFrame frame = new JFrame();
             int result = JOptionPane.showConfirmDialog(frame, "Paimon: Phew! That's enough list making for "
                     + "today! Would you like Paimon to save your work?");
+
+            for (Event e : EventLog.getInstance()) {
+                System.out.println(e.getDescription());
+            }
 
             if (result == 0) {
                 try {

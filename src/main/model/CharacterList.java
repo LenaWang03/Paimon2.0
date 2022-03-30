@@ -27,6 +27,7 @@ public class CharacterList implements Writable {
     // EFFECTS: adds character to list
     public void addCharacterToList(Character character) {
         characters.add(character);
+        EventLog.getInstance().logEvent(new Event(character.getName() + " added to list " + name));
     }
 
     // REQUIRES: character to be in list
@@ -34,6 +35,7 @@ public class CharacterList implements Writable {
     // EFFECTS: removes character from list
     public void removeCharacterFromList(Character character) {
         characters.remove(character);
+        EventLog.getInstance().logEvent(new Event(character.getName() + " removed from list " + name));
     }
 
      // EFFECTS: returns true if character is in the list, else false
