@@ -4,8 +4,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 
+// based on Alarm System application provided in course materials
+
 /**
- * Represents an alarm system event.
+ * Represents a character list event.
  */
 public class Event {
     private static final int HASH_CONSTANT = 13;
