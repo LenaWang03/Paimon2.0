@@ -36,6 +36,12 @@
                     "weapon": "BOW",
                     "level": 68,
                     "name": "Childe"
+                },
+                {
+                    "vision": "HYDRO",
+                    "weapon": "SWORD",
+                    "level": 1,
+                    "name": "Ayato"
                 }
             ],
             "name": "DPS"

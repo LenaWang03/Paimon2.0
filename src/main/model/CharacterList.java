@@ -23,7 +23,7 @@ public class CharacterList implements Writable {
     }
 
     // REQUIRES: character to not already be in list
-    // MODIFIES: this
+    // MODIFIES: this, EventLog.getInstance()
     // EFFECTS: adds character to list
     public void addCharacterToList(Character character) {
         characters.add(character);
@@ -31,7 +31,7 @@ public class CharacterList implements Writable {
     }
 
     // REQUIRES: character to be in list
-    // MODIFIES: this
+    // MODIFIES: this, EventLog.getInstance()
     // EFFECTS: removes character from list
     public void removeCharacterFromList(Character character) {
         characters.remove(character);

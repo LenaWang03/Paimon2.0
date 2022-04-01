@@ -86,6 +86,10 @@ Wed Mar 30 21:11:06 PDT 2022
 
 Diona removed from list Healers
 
+
+My events do log things so this section doesn't apply, BUT, under the event that the application
+closes and no events are logged, here is why:
+
 No events are logged when the program runs if the user decides to not perform any actions 
 with the two actions that are being logged. For an example, a user might just want to view 
 their lists instead of adding or deleting from them. 
@@ -94,7 +98,16 @@ their lists instead of adding or deleting from them.
 I think that my design for this application is very simple and basic. I don't think there 
 is anything structurally wrong with it, but in the future if I had more time I would make use of
 the abstract and interface classes more to make my application have better cohesion and coupling, and just
-look better overall. For example, I would make Character an abstract class, and I would have the subclasses 
-as the different characters with different visions. This way I wouldn't have to use an enumeration for the 
-different visions. Other than that, everything else I would change would have to do with adding more things,
-not refactoring. 
+look better overall. 
+- For example, I would make Character an abstract class, and I would have the subclasses 
+as the different characters with different visions. 
+  - This way I wouldn't have to use an enumeration for the 
+different visions. 
+    
+- In the future to support more list methods, I would also consider making Character List an 
+abstract class, so I could have different subclasses of Character Lists such as DPS, or teams, or Healers etc. 
+  - The reason I am not doing that now is because my program treats all lists as the same. There is no specific
+implementation for the different types of lists at the moment. 
+    
+Other than that, everything else I would 
+change would have to do with adding more things, not refactoring. 
