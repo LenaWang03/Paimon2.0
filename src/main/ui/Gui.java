@@ -16,34 +16,34 @@ import persistence.JsonWriter;
 // represents GUI for the Genshin application
 public class Gui extends JFrame {
 
-    JLabel loadCommand;
-    Color bg;
-    JPanel panelCont = new JPanel();
-    JPanel startPanel = new JPanel();
-    JPanel profilePanel = new JPanel();
-    JPanel mainPanel = new JPanel();
-    CardLayout cl = new CardLayout();
-    CardLayout wcl = new CardLayout();
+    private JLabel loadCommand;
+    private Color bg;
+    private JPanel panelCont = new JPanel();
+    private JPanel startPanel = new JPanel();
+    private JPanel profilePanel = new JPanel();
+    private JPanel mainPanel = new JPanel();
+    private CardLayout cl = new CardLayout();
+    private CardLayout wcl = new CardLayout();
     private final JsonWriter jsonWriter;
     private final JsonReader jsonReader;
     private static final String JSON_STORE = "./data/lists.json";
-    JTextField txtProfileInput;
-    Profile profile;
-    JLabel dialogue;
-    JPanel workPanel;
-    JButton addCharacter;
-    JButton removeCharacter;
-    JButton viewList;
-    JButton quit;
-    JTextArea output = new JTextArea();
-    JComboBox<String> characters = new JComboBox<>();
-    JTextField name;
-    JComboBox<String> vision;
-    JComboBox<String> weapon;
-    JComboBox<String> level;
-    JComboBox<String> lists;
-    Boolean counter = false;
-    Boolean counter2 = false;
+    private JTextField txtProfileInput;
+    private Profile profile;
+    private JLabel dialogue;
+    private JPanel workPanel;
+    private JButton addCharacter;
+    private JButton removeCharacter;
+    private JButton viewList;
+    private JButton quit;
+    private JTextArea output = new JTextArea();
+    private JComboBox<String> characters = new JComboBox<>();
+    private JTextField name;
+    private JComboBox<String> vision;
+    private JComboBox<String> weapon;
+    private JComboBox<String> level;
+    private JComboBox<String> lists;
+    private Boolean counter = false;
+    private Boolean counter2 = false;
 
     // EFFECTS: starts running the application
     public Gui() {
@@ -78,7 +78,7 @@ public class Gui extends JFrame {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 for (Event e : EventLog.getInstance()) {
-                    System.out.println(e.getDescription());
+                    System.out.println(e.toString() + "\n");
                 }
                 System.exit(0);
             }
@@ -553,7 +553,7 @@ public class Gui extends JFrame {
                     + "today! Would you like Paimon to save your work?");
 
             for (Event e : EventLog.getInstance()) {
-                System.out.println(e.getDescription());
+                System.out.println(e.toString() + "\n");
             }
 
             if (result == 0) {

@@ -68,20 +68,33 @@ printed to the console after I close the application
 
 ## Phase 4: Task 2
 Example of event log:
-- Bennett added to list Owned Characters
-- Raiden added to list Owned Characters
-- Eula added to list Owned Characters
-- Klee added to list DPS 
-- Childe added to list DPS
-- Sayu added to list Support
-- Albedo added to list Support
-- Fischl added to list Support
-- Diona added to list Healers
-- Diona added to list idklist
-- Diona removed from list Healers
-- Klee removed from list DPS
+
+
+Wed Mar 30 21:10:58 PDT 2022
+
+Diona added to list Healers
+
+Wed Mar 30 21:10:58 PDT 2022
+
+Diona added to list idklist
+
+Wed Mar 30 21:11:01 PDT 2022
+
+Bennett removed from list Owned Characters
+
+Wed Mar 30 21:11:06 PDT 2022
+
+Diona removed from list Healers
 
 No events are logged when the program runs if the user decides to not perform any actions 
 with the two actions that are being logged. For an example, a user might just want to view 
 their lists instead of adding or deleting from them. 
 
+## Phase 4: Task 3
+I think that my design for this application is very simple and basic. I don't think there 
+is anything structurally wrong with it, but in the future if I had more time I would make use of
+the abstract and interface classes more to make my application have better cohesion and coupling, and just
+look better overall. For example, I would make Character an abstract class, and I would have the subclasses 
+as the different characters with different visions. This way I wouldn't have to use an enumeration for the 
+different visions. Other than that, everything else I would change would have to do with adding more things,
+not refactoring. 
